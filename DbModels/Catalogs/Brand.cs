@@ -1,9 +1,9 @@
-﻿namespace tech_store.DbModels.Catalogs
+﻿using tech_store.DbModels.BaseDbModels;
+
+namespace tech_store.DbModels.Catalogs
 {
-    public class Brand
+    public class Brand : ValueBase
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
 
     }
 }

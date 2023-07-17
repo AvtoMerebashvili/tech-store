@@ -2,17 +2,17 @@
 {
     public class Product
     {
-        public int Id { get; set; }
-        public int ProductTypeId { get; set; }
-        public required string Name { get; set; }
-        public required string Features { get; set; }
-        public bool OnSale { get; set; }
-        public int Quantity { get; set; }
-        public int SellingCost { get; set;}
-        public int BuyingCost { get; set;}
-        public int InitialQuantity { get; set; }
-        public string Img { get; set; }
-        public int BrandId { get; set; }
-        public int CreatorId { get; set; }
+        public int id { get; set; }
+        public int product_type_id { get; set; }
+        public required string name { get; set; }
+        public required string features { get; set; }
+        public bool on_sale { get; set; }
+        public int quantity { get; set; }
+        public int selling_cost { get; set;}
+        public int buying_cost { get; set;}
+        public int initial_quantity { get; set; }
+        public string img { get; set; }
+        public int brand_id { get; set; }
+        public int creator_id { get; set; }
     }
 }

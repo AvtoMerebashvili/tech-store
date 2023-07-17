@@ -1,10 +1,9 @@
-﻿namespace tech_store.DbModels.Catalogs
+﻿using tech_store.DbModels.BaseDbModels;
+
+namespace tech_store.DbModels.Catalogs
 {
-    public class Country
+    public class Country : CatalogBase
     {
-        public int Id { get; set; }
-        public string NameGeo { get; set; }
-        public string NameLat { get; set; }
-        public string Code { get; set; }
+        public string code { get; set; }
     }
 }

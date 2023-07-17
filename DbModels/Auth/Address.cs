@@ -2,14 +2,14 @@
 {
     public class Address
     {
-        public int Id { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string PostalCode { get; set; }
-        public int Phone { get; set; }
-        public string TargetName { get; set; }
-        public string TargetSurname { get; set; }
-        public int UserID { get; set; }
+        public int id { get; set; }
+        public string country { get; set; }
+        public string city { get; set; }
+        public string street { get; set; }
+        public string postal_code { get; set; }
+        public int phone { get; set; }
+        public string target_name { get; set; }
+        public string target_surname { get; set; }
+        public int user_id { get; set; }
     }
 }

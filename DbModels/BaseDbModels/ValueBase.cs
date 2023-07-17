@@ -1,6 +1,6 @@
-﻿namespace tech_store.DbModels.Auth
+﻿namespace tech_store.DbModels.BaseDbModels
 {
-    public class Role
+    public class ValueBase
     {
         public int id { get; set; }
         public string name { get; set; }
