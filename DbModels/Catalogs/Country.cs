@@ -2,7 +2,7 @@
 
 namespace tech_store.DbModels.Catalogs
 {
-    public class Country : CatalogBase
+    public class Country : ValueBase
     {
         public string code { get; set; }
     }

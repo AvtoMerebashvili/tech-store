@@ -1,11 +1,11 @@
-﻿namespace tech_store.DbModels.Products
+﻿using tech_store.DbModels.BaseDbModels;
+
+namespace tech_store.DbModels.Products
 {
-    public class Product
+    public class Product : ValueBase
     {
-        public int id { get; set; }
         public int product_type_id { get; set; }
-        public required string name { get; set; }
-        public required string features { get; set; }
+        public string features { get; set; }
         public bool on_sale { get; set; }
         public int quantity { get; set; }
         public int selling_cost { get; set;}
