@@ -8,9 +8,10 @@ namespace tech_store.DbModels
 {
     public class TechStoreContext : DbContext
     {
-        //public TechStoreContext(DbContextOptions<TechStoreContext> options) : base(options)
-        //{
-        //}
+        public TechStoreContext(DbContextOptions<TechStoreContext> options) : base(options)
+        {
+
+        }
         //Auth
         public DbSet<User> users { get; set; }
         public DbSet<Role> roles { get; set; }

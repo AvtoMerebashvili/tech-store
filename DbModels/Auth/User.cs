@@ -12,7 +12,6 @@ namespace tech_store.DbModels.Auth
         public string surname { get; set; }
         public int role_id { get; set; }
  
-
     }
 
     public class UserRelations : ValueBase
