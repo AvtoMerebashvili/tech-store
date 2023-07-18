@@ -1,6 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using tech_store.DbModels;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<TechStoreContext>(o => {
+    o.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
