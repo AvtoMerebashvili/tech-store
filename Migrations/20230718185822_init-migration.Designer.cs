@@ -12,8 +12,8 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    [Migration("20230717215648_tech_maret_creation")]
-    partial class tech_maret_creation
+    [Migration("20230718185822_init-migration")]
+    partial class initmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,7 @@ namespace tech_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("phone")
+                        .HasMaxLength(12)
                         .HasColumnType("int");
 
                     b.Property<string>("postal_code")
@@ -64,6 +65,9 @@ namespace tech_store.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("user_id")
+                        .IsUnique();
 
                     b.ToTable("addresses");
                 });
@@ -122,6 +126,8 @@ namespace tech_store.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("role_id");
+
                     b.ToTable("users");
                 });
 
@@ -153,15 +159,13 @@ namespace tech_store.Migrations
                     b.Property<int>("country_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("name_geo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name_lat")
+                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("country_id");
 
                     b.ToTable("cities");
                 });
@@ -178,11 +182,7 @@ namespace tech_store.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name_geo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name_lat")
+                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -208,6 +208,8 @@ namespace tech_store.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("brand_id");
+
                     b.ToTable("models");
                 });
 
@@ -228,60 +230,6 @@ namespace tech_store.Migrations
                     b.ToTable("product_types");
                 });
 
-            modelBuilder.Entity("tech_store.DbModels.Products.Book", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("book_item_id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("create_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("expiration_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("owner_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("books");
-                });
-
-            modelBuilder.Entity("tech_store.DbModels.Products.BookItem", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("create_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("expiration_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("owner_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("book_items");
-                });
-
             modelBuilder.Entity("tech_store.DbModels.Products.Order", b =>
                 {
                     b.Property<int>("id")
@@ -293,9 +241,6 @@ namespace tech_store.Migrations
                     b.Property<bool>("active")
                         .HasColumnType("bit");
 
-                    b.Property<int>("book_id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("create_date")
                         .HasColumnType("datetime2");
 
@@ -305,10 +250,13 @@ namespace tech_store.Migrations
                     b.Property<DateTime>("end_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("order_item_id")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("expiration_date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("owner_id")
+                    b.Property<bool>("is_book")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("order_items_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("pass_in_branch")
@@ -318,6 +266,12 @@ namespace tech_store.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("delivery_address_id");
+
+                    b.HasIndex("order_items_id");
+
+                    b.HasIndex("product_id");
 
                     b.ToTable("orders");
                 });
@@ -330,9 +284,6 @@ namespace tech_store.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("book_item_id")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("create_date")
                         .HasColumnType("datetime2");
 
@@ -348,6 +299,8 @@ namespace tech_store.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("owner_id");
+
                     b.ToTable("order_items");
                 });
 
@@ -358,9 +311,6 @@ namespace tech_store.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("brand_id")
-                        .HasColumnType("int");
 
                     b.Property<int>("buying_cost")
                         .HasColumnType("int");
@@ -377,6 +327,9 @@ namespace tech_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("initial_quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("model_id")
                         .HasColumnType("int");
 
                     b.Property<string>("name")
@@ -397,7 +350,170 @@ namespace tech_store.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("creator_id");
+
+                    b.HasIndex("product_type_id");
+
                     b.ToTable("products");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Auth.Address", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Auth.User", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("tech_store.DbModels.Auth.Address", "user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Auth.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.City", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Catalogs.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("country_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.Model", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Catalogs.Brand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("brand_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Products.Order", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Auth.Address", "Address")
+                        .WithMany("Orders")
+                        .HasForeignKey("delivery_address_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tech_store.DbModels.Products.OrderItem", "OrderItem")
+                        .WithMany("Orders")
+                        .HasForeignKey("order_items_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("tech_store.DbModels.Products.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("OrderItem");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Products.OrderItem", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Auth.User", "User")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("owner_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Products.Product", b =>
+                {
+                    b.HasOne("tech_store.DbModels.Auth.User", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("creator_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tech_store.DbModels.Catalogs.Model", "Model")
+                        .WithMany("Products")
+                        .HasForeignKey("product_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tech_store.DbModels.Catalogs.ProductType", "ProductType")
+                        .WithMany("Products")
+                        .HasForeignKey("product_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Model");
+
+                    b.Navigation("ProductType");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Auth.Address", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Auth.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
+                {
+                    b.Navigation("Address")
+                        .IsRequired();
+
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.Brand", b =>
+                {
+                    b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.Country", b =>
+                {
+                    b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.Model", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Catalogs.ProductType", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Products.OrderItem", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("tech_store.DbModels.Products.Product", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
