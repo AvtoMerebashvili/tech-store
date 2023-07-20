@@ -11,7 +11,7 @@
         Task<ServiceResponse<List<ProductTypeGetDto>>> removeProductType(int id);
         Task<ServiceResponse<List<ProductTypeGetDto>>> addModel(ModelAddDto request);
         Task<ServiceResponse<List<ProductTypeGetDto>>> removeModel(int id);
-        Task<ServiceResponse<List<ProductTypeGetDto>>> addBrand(BrandAddDto request);
+        Task<ServiceResponse<List<BrandGetDto>>> addBrand(BrandAddDto newBrand);
         Task<ServiceResponse<List<ProductTypeGetDto>>> removeBrand(int id);
         Task<ServiceResponse<List<ProductTypeGetDto>>> addCountry(CountryAddDto request);
         Task<ServiceResponse<List<ProductTypeGetDto>>> removeCountry(int id);

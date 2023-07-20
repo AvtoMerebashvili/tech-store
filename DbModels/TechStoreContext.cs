@@ -79,24 +79,28 @@ namespace tech_store.DbModels
         // CATALOG
         private void createBrandsTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Brand>().HasKey(e=>e.id);
+            modelBuilder.Entity<Brand>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<Brand>().Property(e => e.name).IsRequired();    
             modelBuilder.Entity<Brand>().HasMany(e=>e.Models).WithOne(e=>e.Brand).HasForeignKey(e=>e.brand_id);
         }
 
         private void createModelsTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Model>().HasKey(e=>e.id);
+            modelBuilder.Entity<Model>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<Model>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<Model>().Property(e=>e.brand_id).IsRequired();           
         }
     
         private void createCountriesTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Country>().HasKey(e=>e.id);
+            modelBuilder.Entity<Country>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<Country>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<Country>().HasMany(e=>e.Cities).WithOne(e=>e.Country).HasForeignKey(e=>e.country_id);
         }
     
         private void createCitiesTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<City>().HasKey(e=>e.id);
+            modelBuilder.Entity<City>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<City>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<City>().Property(e=>e.country_id).IsRequired();
             modelBuilder.Entity<City>().HasOne(e=>e.Country).WithMany(e=>e.Cities).HasForeignKey(e=>e.country_id);
@@ -104,6 +108,7 @@ namespace tech_store.DbModels
     
         private void createProductTypesTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<ProductType>().HasKey(e=>e.id);
+            modelBuilder.Entity<ProductType>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<ProductType>().Property(e=>e.name).IsRequired();
         }
     

@@ -1,17 +1,28 @@
-﻿using tech_store.DbModels;
+﻿using Microsoft.EntityFrameworkCore;
+using tech_store.DbModels;
+using tech_store.DbModels.Catalogs;
 
 namespace tech_store.Services.CatalogsService
 {
     public class CatalogsService : ICatalogsService
     {
         private readonly TechStoreContext _context;
-        public CatalogsService(TechStoreContext context) {
+        private readonly IMapper _mapper;
+        public CatalogsService(TechStoreContext context, IMapper mapper) {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<List<ProductTypeGetDto>>> addBrand(BrandAddDto request)
+        public async Task<ServiceResponse<List<BrandGetDto>>> addBrand(BrandAddDto newBrand)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<List<BrandGetDto>>();
+            var dbBrand = _mapper.Map<Brand>(newBrand);
+            _context.Add(dbBrand);
+            _context.SaveChanges();
+            var dbBrands = await _context.brands.ToListAsync();
+            var getBrandDto = dbBrands.Select(x => _mapper.Map<BrandGetDto>(dbBrand)).ToList();            
+            response.result = getBrandDto;
+            return response;
         }
 
         public async Task<ServiceResponse<List<ProductTypeGetDto>>> addCity(CityAddDto request)

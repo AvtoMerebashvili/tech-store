@@ -11,7 +11,7 @@
         Task<ServiceResponse<List<BookGetDto>>> getBooksByParams(int? id);
         Task<ServiceResponse<List<BookGetDto>>> createBook(BookCreateDto request);
         Task<ServiceResponse<bool>> removeBookById(int id);
-        Task<ServiceResponse<List<ProductsGetDto>>> addNewProduct(ProductAddDto request);
+        Task<ServiceResponse<List<ProductsGetDto>>> addNewProduct(ProductAddDto newProduct);
         Task<ServiceResponse<List<ProductUpdateDto>>> updateProduct(ProductUpdateDto request);
     }
 }

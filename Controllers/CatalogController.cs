@@ -8,8 +8,8 @@ namespace tech_store.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
-        private readonly CatalogsService _catalogsService;
-        public CatalogController(CatalogsService catalogService)
+        private readonly ICatalogsService _catalogsService;
+        public CatalogController(ICatalogsService catalogService)
         {
             _catalogsService = catalogService;
         }
@@ -81,9 +81,9 @@ namespace tech_store.Controllers
 
         [HttpPost]
         [Route("AddBrand")]
-        public async Task<ActionResult<Boolean>> addBrand(BrandAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> addBrand(BrandAddDto request)
         {
-            return null;
+            return await _catalogsService.addBrand(request);
         }
 
         [HttpDelete]
