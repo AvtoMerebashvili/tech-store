@@ -12,8 +12,8 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    [Migration("20230720223646_remove-value-generators")]
-    partial class removevaluegenerators
+    [Migration("20230720233135_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

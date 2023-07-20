@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace tech_store.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigration : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace tech_store.Migrations
                 name: "brands",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -28,9 +27,8 @@ namespace tech_store.Migrations
                 name: "countries",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false),
+                    code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -42,8 +40,7 @@ namespace tech_store.Migrations
                 name: "product_types",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -68,8 +65,7 @@ namespace tech_store.Migrations
                 name: "models",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     brand_id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -88,8 +84,7 @@ namespace tech_store.Migrations
                 name: "cities",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     country_id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -112,8 +107,8 @@ namespace tech_store.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     role_id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -141,7 +136,7 @@ namespace tech_store.Migrations
                     postal_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phone = table.Column<int>(type: "int", maxLength: 12, nullable: false),
                     target_name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    target_surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    target_surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     user_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -184,13 +179,13 @@ namespace tech_store.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     product_type_id = table.Column<int>(type: "int", nullable: false),
-                    features = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    features = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     on_sale = table.Column<bool>(type: "bit", nullable: false),
                     quantity = table.Column<int>(type: "int", nullable: false),
                     selling_cost = table.Column<int>(type: "int", nullable: false),
                     buying_cost = table.Column<int>(type: "int", nullable: false),
                     initial_quantity = table.Column<int>(type: "int", nullable: false),
-                    img = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    img = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     model_id = table.Column<int>(type: "int", nullable: false),
                     creator_id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false)
