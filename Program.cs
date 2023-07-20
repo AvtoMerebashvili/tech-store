@@ -1,5 +1,13 @@
+global using tech_store.Services.CatalogsService;
+global using tech_store.Services.ProductsService;
+global using tech_store.Dtos;
+global using tech_store.Dtos.Books;
+global using tech_store.Dtos.Catalogs;
+global using tech_store.Dtos.Orders;
+global using tech_store.Dtos.Products;
 using Microsoft.EntityFrameworkCore;
 using tech_store.DbModels;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TechStoreContext>(o => {
     o.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"));
 });
+
+builder.Services.AddScoped<ICatalogsService, CatalogsService>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

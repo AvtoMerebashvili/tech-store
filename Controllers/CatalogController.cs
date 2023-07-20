@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using tech_store.DbModels;
+﻿using Microsoft.AspNetCore.Mvc;
 using tech_store.DbModels.Catalogs;
-using tech_store.Dtos.Catalogs;
+
 
 namespace tech_store.Controllers
 {
@@ -10,10 +8,10 @@ namespace tech_store.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
-        private readonly TechStoreContext _context;
-        public CatalogController(TechStoreContext context)
+        private readonly CatalogsService _catalogsService;
+        public CatalogController(CatalogsService catalogService)
         {
-            _context = context;
+            _catalogsService = catalogService;
         }
 
         [HttpGet]
