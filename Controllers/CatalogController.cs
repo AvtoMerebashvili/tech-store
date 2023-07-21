@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using tech_store.DbModels.Catalogs;
+using tech_store.Dtos;
 
 
 namespace tech_store.Controllers
@@ -16,66 +18,66 @@ namespace tech_store.Controllers
 
         [HttpGet]
         [Route("ProductTypes")]
-        public async Task<ActionResult<List<ProductType>>> getProductTypes()
+        public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> getProductTypes()
         {
-            return null;
+            return await _catalogsService.getProductTypes();
         }
 
         [HttpGet]
         [Route("Countries")]
-        public async Task<ActionResult<List<CountryGetDto>>> getCountries()
+        public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> getCountries()
         {
-            return null;
+            return await _catalogsService.getCountries();
         }
 
         [HttpGet]
         [Route("Cities")]
-        public async Task<ActionResult<List<CityGetDto>>> getCities(int? countryId)
+        public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> getCities(int? countryId)
         {
-            return null;
+            return await _catalogsService.getCitiesByParams(countryId);
         }
 
         [HttpGet]
         [Route("Models")]
-        public async Task<ActionResult<List<ModelGetDto>>> getModels(int? brandId)
+        public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> getModels(int? brandId)
         {
-            return null;
+            return await _catalogsService.getModelsByParams(brandId);
         }
 
         [HttpGet]
         [Route("Brands")]
-        public async Task<ActionResult<List<BrandGetDto>>> getBrands()
+        public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> getBrands()
         {
-            return null;
+            return await _catalogsService.getBrands();
         }
 
         //ADMIN
         [HttpPost]
         [Route("AddProductType")]
-        public async Task<ActionResult<Boolean>> addProductType(ProductTypeAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> addProductType(ProductTypeAddDto request)
         {
-            return null;
+            return await _catalogsService.addProductType(request);
         }
 
         [HttpDelete]
         [Route("RemoveProductType")]
-        public async Task<ActionResult<Boolean>> removeProductType(int id)
+        public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> removeProductType(int id)
         {
-            return null;
+            return await _catalogsService.removeProductType(id);
         }
 
         [HttpPost]
         [Route("AddModel")]
-        public async Task<ActionResult<Boolean>> addModel(ModelAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> addModel(ModelAddDto request)
         {
-            return null;
+            return await _catalogsService.addModel(request);
         }
 
         [HttpDelete]
         [Route("RemoveModel")]
-        public async Task<ActionResult<Boolean>> removeModel(int id)
+        public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> removeModel(int id)
         {
-            return null;
+            return await _catalogsService.removeModel(id);
         }
 
 
@@ -88,37 +90,37 @@ namespace tech_store.Controllers
 
         [HttpDelete]
         [Route("RemoveBrand")]
-        public async Task<ActionResult<Boolean>> removeBrand(int id)
+        public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> removeBrand(int id)
         {
-            return null;
+            return await _catalogsService.removeBrand(id);
         }
 
         [HttpPost]
         [Route("AddCountry")]
-        public async Task<ActionResult<Boolean>> addCountry(CountryAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> addCountry(CountryAddDto request)
         {
-            return null;
+            return await _catalogsService.addCountry(request);
         }
 
         [HttpDelete]
         [Route("RemoveCountry")]
-        public async Task<ActionResult<Boolean>> removeCountry(int id)
+        public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> removeCountry(int id)
         {
-            return null;
+            return await _catalogsService.removeCountry(id);
         }
 
         [HttpPost]
         [Route("AddCity")]
-        public async Task<ActionResult<Boolean>> addCity(CityAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> addCity(CityAddDto request)
         {
-            return null;
+            return await _catalogsService.addCity(request);
         }
 
         [HttpDelete]
         [Route("RemoveCity")]
-        public async Task<ActionResult<Boolean>> removeCity(int id)
+        public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> removeCity(int id)
         {
-            return null;
+            return await _catalogsService.removeCity(id);
         }
 
     }
