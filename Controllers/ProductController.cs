@@ -6,20 +6,18 @@ namespace tech_store.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly ProductsService _productsService;
+        private readonly IProductsService _productsService;
 
-        public ProductController(ProductsService productsService)
+        public ProductController(IProductsService productsService)
         {
             _productsService = productsService;
         }
 
         [HttpGet]
         [Route("Products")]
-        public async Task<ActionResult<List<ProductsGetDto>>> getProducts(ProductsRequest request)
+        public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> getProducts([FromQuery] ProductsRequest request)
         {
-            //return await this._context.products.ToListAsync();
-            // getProductsByParams
-            return null;
+            return await _productsService.getProductsByParams(request);
         }
 
         [HttpGet]
@@ -91,18 +89,16 @@ namespace tech_store.Controllers
 
         [HttpPost]
         [Route("AddNewProduct")]
-        public async Task<ActionResult<Boolean>> addProduct(ProductAddDto request)
+        public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> addProduct(ProductAddDto request)
         {
-            //addNewProduct
-            return null;
+            return await _productsService.addNewProduct(request);
         }
 
         [HttpPut]
         [Route("UpdateProduct")]
-        public async Task<ActionResult<Boolean>> updateProduct(ProductUpdateDto request)
+        public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> updateProduct(ProductUpdateDto request)
         {
-            //updateProduct
-            return null;
+            return await _productsService.updateProduct(request);
         }
     }
 } 

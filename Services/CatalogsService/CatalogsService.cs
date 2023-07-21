@@ -68,8 +68,8 @@ namespace tech_store.Services.CatalogsService
             var response = new ServiceResponse<List<ProductTypeGetDto>>();
             var dbProductType = _mapper.Map<ProductType>(newProductType);
             await _context.AddAsync(dbProductType);
-             await _context.SaveChangesAsync();
-            var dbProductTypes = _context.models.ToList();
+            await _context.SaveChangesAsync();
+            var dbProductTypes = _context.product_types.ToList();
             var getProductTypesDto = dbProductTypes.Select(x => _mapper.Map<ProductTypeGetDto>(x)).ToList();
             response.result = getProductTypesDto;
             return response;
@@ -108,7 +108,7 @@ namespace tech_store.Services.CatalogsService
         {
             var response = new ServiceResponse<List<ModelGetDto>>();
             var dbModels = _context.models.Where(model =>
-                string.IsNullOrEmpty(brandId.ToString()) || model.id == brandId
+                string.IsNullOrEmpty(brandId.ToString()) || model.brand_id == brandId
                 ).ToList();
             var modelsDto = dbModels.Select(x => _mapper.Map<ModelGetDto>(x)).ToList();
             response.result = modelsDto;

@@ -1,4 +1,7 @@
-﻿using tech_store.DbModels;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using tech_store.DbModels;
+using tech_store.DbModels.Products;
 
 namespace tech_store.Services.ProductsService
 {
@@ -12,11 +15,14 @@ namespace tech_store.Services.ProductsService
         }
         public async Task<ServiceResponse<List<ProductsGetDto>>> addNewProduct(ProductAddDto newProduct)
         {
-            //var dbProduct = _mapper.Map<ProductAddDto>(newProduct);
-            
-            //_context.
-            //await _context.SaveChangesAsync();
-            throw new NotImplementedException();
+            var response = new ServiceResponse<List<ProductsGetDto>>();
+            var dbProduct = _mapper.Map<Product>(newProduct);
+            await _context.AddAsync(dbProduct);
+            await _context.SaveChangesAsync();
+            var dbProducts = _context.products.ToList();
+            var productsDto = dbProducts.Select(x=>_mapper.Map<ProductsGetDto>(x)).ToList();
+            response.result = productsDto;
+            return response;
         }
 
         public async Task<ServiceResponse<List<BookGetDto>>> createBook(BookCreateDto request)
@@ -46,7 +52,11 @@ namespace tech_store.Services.ProductsService
 
         public async Task<ServiceResponse<List<ProductsGetDto>>> getProductsByParams(ProductsRequest request)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<List<ProductsGetDto>>();
+            var dbProducts = _context.products.ToList();
+            var productsDto = dbProducts.Select(x => _mapper.Map<ProductsGetDto>(x)).ToList();
+            response.result = productsDto;
+            return response;
         }
 
         public async Task<ServiceResponse<bool>> removeBookById(int id)
@@ -64,7 +74,7 @@ namespace tech_store.Services.ProductsService
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResponse<List<ProductUpdateDto>>> updateProduct(ProductUpdateDto request)
+        public async Task<ServiceResponse<List<ProductsGetDto>>> updateProduct(ProductUpdateDto request)
         {
             throw new NotImplementedException();
         }

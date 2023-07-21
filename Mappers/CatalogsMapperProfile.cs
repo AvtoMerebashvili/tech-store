@@ -8,12 +8,16 @@ namespace tech_store.Mappers
         {
             CreateMap<Brand, BrandGetDto>();
             CreateMap<BrandAddDto, Brand>();
-            CreateMap<City, CityGetDto>();
-            CreateMap<CityAddDto, City>();
+            CreateMap<City, CityGetDto>()
+                .ForMember(dest => dest.countryId, act => act.MapFrom(src => src.country_id));
+            CreateMap<CityAddDto, City>()
+                .ForMember(dest => dest.country_id, act => act.MapFrom(src => src.countryId)); ;
             CreateMap<Country, CountryGetDto>();
             CreateMap<CountryAddDto, Country>();
-            CreateMap<Model, ModelGetDto>();
-            CreateMap<ModelAddDto, Model>();
+            CreateMap<Model, ModelGetDto>()
+                .ForMember(dest => dest.brandId, act => act.MapFrom(src => src.brand_id));
+            CreateMap<ModelAddDto, Model>()
+                .ForMember(dest => dest.brand_id, act => act.MapFrom(src => src.brandId));
             CreateMap<ProductType, ProductTypeGetDto>();
             CreateMap<ProductTypeAddDto, ProductType>();
         }
