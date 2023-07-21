@@ -5,11 +5,17 @@ namespace tech_store.Services.ProductsService
     public class ProductsService : IProductsService
     {
         public readonly TechStoreContext _context;
-        public ProductsService(TechStoreContext context) {
+        public readonly IMapper _mapper;
+        public ProductsService(TechStoreContext context, IMapper mapper) {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<ServiceResponse<List<ProductsGetDto>>> addNewProduct(ProductAddDto request)
+        public async Task<ServiceResponse<List<ProductsGetDto>>> addNewProduct(ProductAddDto newProduct)
         {
+            //var dbProduct = _mapper.Map<ProductAddDto>(newProduct);
+            
+            //_context.
+            //await _context.SaveChangesAsync();
             throw new NotImplementedException();
         }
 

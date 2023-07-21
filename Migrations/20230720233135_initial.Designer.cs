@@ -12,8 +12,8 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    [Migration("20230718185822_init-migration")]
-    partial class initmigration
+    [Migration("20230720233135_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,7 +58,6 @@ namespace tech_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("target_surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("user_id")
@@ -98,7 +97,6 @@ namespace tech_store.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
@@ -110,7 +108,6 @@ namespace tech_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("role_id")
@@ -134,10 +131,7 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Catalogs.Brand", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -151,10 +145,7 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Catalogs.City", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("country_id")
                         .HasColumnType("int");
@@ -173,13 +164,9 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Catalogs.Country", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
                     b.Property<string>("code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("name")
@@ -194,10 +181,7 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Catalogs.Model", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("brand_id")
                         .HasColumnType("int");
@@ -216,10 +200,7 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Catalogs.ProductType", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -319,11 +300,9 @@ namespace tech_store.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("features")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("img")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("initial_quantity")
@@ -478,8 +457,7 @@ namespace tech_store.Migrations
 
             modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("Address");
 
                     b.Navigation("OrderItems");
 
