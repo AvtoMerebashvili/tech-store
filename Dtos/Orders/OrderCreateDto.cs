@@ -8,5 +8,7 @@
         public int? orderItemsId { get; set; }
         public bool passInBranch { get; set; }
         public int? deliveryAddressId { get; set; }
+
+        public int? bookId{ get; set; }
     }
 }

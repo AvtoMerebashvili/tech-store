@@ -4,7 +4,7 @@
     {
         public int id { get; set; }
         public string productId { get; set; }
-        public DateTime create_date { get; set; }
-        public DateTime expiration_date { get; set; }
+        public DateTime createDate { get; set; }
+        public DateTime expirationDate { get; set; }
     }
 }

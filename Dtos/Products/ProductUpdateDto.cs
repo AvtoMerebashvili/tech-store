@@ -2,6 +2,7 @@
 {
     public class ProductUpdateDto
     {
+        public int id {  get; set; }
         public int? productTypeId { get; set; }
         public string? features { get; set; }
         public bool? onSale { get; set; }

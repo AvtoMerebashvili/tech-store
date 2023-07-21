@@ -79,28 +79,28 @@ namespace tech_store.DbModels
         // CATALOG
         private void createBrandsTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Brand>().HasKey(e=>e.id);
-            modelBuilder.Entity<Brand>().Property(e => e.id).ValueGeneratedNever();
-            modelBuilder.Entity<Brand>().Property(e => e.name).IsRequired();    
+            modelBuilder.Entity<Brand>().Property(e=>e.id).ValueGeneratedNever();
+            modelBuilder.Entity<Brand>().Property(e=>e.name).IsRequired();    
             modelBuilder.Entity<Brand>().HasMany(e=>e.Models).WithOne(e=>e.Brand).HasForeignKey(e=>e.brand_id);
         }
 
         private void createModelsTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Model>().HasKey(e=>e.id);
-            modelBuilder.Entity<Model>().Property(e => e.id).ValueGeneratedNever();
+            modelBuilder.Entity<Model>().Property(e=>e.id).ValueGeneratedNever();
             modelBuilder.Entity<Model>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<Model>().Property(e=>e.brand_id).IsRequired();           
         }
     
         private void createCountriesTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<Country>().HasKey(e=>e.id);
-            modelBuilder.Entity<Country>().Property(e => e.id).ValueGeneratedNever();
+            modelBuilder.Entity<Country>().Property(e=>e.id).ValueGeneratedNever();
             modelBuilder.Entity<Country>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<Country>().HasMany(e=>e.Cities).WithOne(e=>e.Country).HasForeignKey(e=>e.country_id);
         }
     
         private void createCitiesTable(ModelBuilder modelBuilder){
             modelBuilder.Entity<City>().HasKey(e=>e.id);
-            modelBuilder.Entity<City>().Property(e => e.id).ValueGeneratedNever();
+            modelBuilder.Entity<City>().Property(e=>e.id).ValueGeneratedNever();
             modelBuilder.Entity<City>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<City>().Property(e=>e.country_id).IsRequired();
             modelBuilder.Entity<City>().HasOne(e=>e.Country).WithMany(e=>e.Cities).HasForeignKey(e=>e.country_id);
@@ -118,7 +118,9 @@ namespace tech_store.DbModels
             modelBuilder.Entity<Order>().Property(e=>e.product_id).IsRequired();
             modelBuilder.Entity<Order>().Property(e=>e.is_book).IsRequired();
             modelBuilder.Entity<Order>().Property(e=>e.create_date).IsRequired();
+            modelBuilder.Entity<Order>().Property(e=>e.create_date).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<Order>().Property(e=>e.active).IsRequired();
+            modelBuilder.Entity<Order>().Property(e => e.active).HasDefaultValue(true);
             modelBuilder.Entity<Order>().HasOne(e=>e.Product).WithMany(e=>e.Orders).HasForeignKey(e=>e.product_id).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Order>().HasOne(e=>e.OrderItem).WithMany(e=>e.Orders).HasForeignKey(e=>e.order_items_id).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Order>().HasOne(e=>e.Address).WithMany(e=>e.Orders).HasForeignKey(e=>e.delivery_address_id);
@@ -129,7 +131,10 @@ namespace tech_store.DbModels
             modelBuilder.Entity<OrderItem>().Property(e=>e.name).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.owner_id).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.create_date).IsRequired();
+            modelBuilder.Entity<OrderItem>().Property(e=>e.create_date).HasDefaultValueSql("getdate()");
             modelBuilder.Entity<OrderItem>().Property(e=>e.end_date).IsRequired();
+            modelBuilder.Entity<OrderItem>().Property(e=>e.is_active).IsRequired();
+            modelBuilder.Entity<OrderItem>().Property(e=>e.is_active).HasDefaultValue(true);
             modelBuilder.Entity<OrderItem>().HasOne(e=>e.User).WithMany(e=>e.OrderItems).HasForeignKey(e=>e.owner_id);
             modelBuilder.Entity<OrderItem>().HasMany(e=>e.Orders).WithOne(e=>e.OrderItem).HasForeignKey(e=>e.order_items_id).OnDelete(DeleteBehavior.NoAction);
         }
