@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,7 +67,7 @@ namespace tech_store.Controllers
         }
 
 
-
+        [Authorize]
         [HttpGet]
         [Route("Roles")]
         public async Task<ServiceResponse<List<RolesGetDto>>> getRoles(int? id)
@@ -74,6 +75,7 @@ namespace tech_store.Controllers
             return await _authService.getRoles(id);
         }
 
+        [Authorize] 
         [HttpPost]
         [Route("AddRole")]
         public async Task<ServiceResponse<List<RolesGetDto>>> addRole(RolesAddDto role)
