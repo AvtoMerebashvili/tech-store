@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tech_store.DbModels;
 
@@ -11,9 +12,11 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    partial class TechStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230725235027_turn-cascading-off")]
+    partial class turncascadingoff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,7 +230,7 @@ namespace tech_store.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<int?>("delivery_address_id")
+                    b.Property<int>("delivery_address_id")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("end_date")
@@ -399,7 +402,8 @@ namespace tech_store.Migrations
                     b.HasOne("tech_store.DbModels.Auth.Address", "Address")
                         .WithMany("Orders")
                         .HasForeignKey("delivery_address_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("tech_store.DbModels.Products.OrderItem", "OrderItem")
                         .WithMany("Orders")

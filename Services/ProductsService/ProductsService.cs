@@ -64,7 +64,9 @@ namespace tech_store.Services.ProductsService
                     owner_id = userId,
                 };
                 await _context.order_items.AddAsync(newOrderItems);
-                dbOrder.order_items_id = newOrderItems.id;
+                await _context.SaveChangesAsync();
+                var justAddedOrderItem = await _context.order_items.OrderByDescending(x => x.create_date).Take(1).FirstAsync();
+                dbOrder.order_items_id = justAddedOrderItem.id;
             }
 
             if (newOrder.bookId != null)
@@ -113,10 +115,10 @@ namespace tech_store.Services.ProductsService
         {
             var response = new ServiceResponse<List<OrderGetDto>>();
             var userId = _tokenService.getUserId();
-            var dbOrders = _context.orders.Where(order =>
+            var dbOrders = await _context.orders.Where(order =>
             !order.is_book &&
             order.owner_id == userId &&
-            (string.IsNullOrEmpty(id.ToString()) || order.id == id)).ToList();
+            (string.IsNullOrEmpty(id.ToString()) || order.id == id)).ToListAsync();
 
             var ordersGetDto = dbOrders.Select(x => _mapper.Map<OrderGetDto>(x)).ToList();
             response.result = ordersGetDto;
@@ -126,13 +128,14 @@ namespace tech_store.Services.ProductsService
         public async Task<ServiceResponse<List<ProductsGetDto>>> getProductsByParams(ProductsRequest request)
         {
             var response = new ServiceResponse<List<ProductsGetDto>>();
-            var dbProducts = _context.products.Where(product =>
+            var dbProducts = await _context.products.Where(product =>
                 string.IsNullOrEmpty(request.id.ToString()) || product.id == request.id &&
                 string.IsNullOrEmpty(request.productTypeId.ToString()) || product.product_type_id == request.productTypeId &&
                 string.IsNullOrEmpty(request.onSale.ToString()) || product.on_sale == request.onSale &&
                 string.IsNullOrEmpty(request.sellingCost.ToString()) || product.selling_cost == request.sellingCost &&
                 string.IsNullOrEmpty(request.modelId.ToString()) || product.model_id == request.modelId
-                );
+                ).ToListAsync();
+
             var productsDto = dbProducts.Select(x => _mapper.Map<ProductsGetDto>(x)).ToList();
             response.result = productsDto;
             return response;
@@ -190,6 +193,16 @@ namespace tech_store.Services.ProductsService
                 response.message = "dbOrderItems Doesnot exists";
                 return response;
             }
+            await _context.orders
+                .Where(order => 
+                    order.order_items_id == id && 
+                    order.owner_id == _tokenService.getUserId())
+                .ForEachAsync(async order =>
+                {
+                    _context.orders.Remove(order);
+                });
+
+            await _context.SaveChangesAsync();
             _context.order_items.Remove(dbOrderItem);
             await _context.SaveChangesAsync();
 
@@ -226,7 +239,7 @@ namespace tech_store.Services.ProductsService
                 });
 
             await _context.SaveChangesAsync();
-            var dbOrderItems = _context.order_items.Where(orderItems => orderItems.owner_id == _tokenService.getUserId()).ToList();
+            var dbOrderItems = await _context.order_items.Where(orderItems => orderItems.owner_id == _tokenService.getUserId()).ToListAsync();
             var orderItemsDto = dbOrderItems.Select(x => _mapper.Map<OrderItemsGetDto>(x)).ToList();
             response.result = orderItemsDto;
             return response;
