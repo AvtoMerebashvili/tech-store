@@ -17,7 +17,7 @@ namespace tech_store.DbModels.Auth
 
     public class UserRelations : ValueBase
     {
-        public Role Role { get; set; }  
+        public Role Role { get; set; }
         public Address Address { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public List<Product> Products { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tech_store.DbModels;
 
@@ -11,9 +12,11 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    partial class TechStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230725151221_tmp-comment-roles-again")]
+    partial class tmpcommentrolesagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,20 +71,6 @@ namespace tech_store.Migrations
                     b.ToTable("addresses");
                 });
 
-            modelBuilder.Entity("tech_store.DbModels.Auth.Role", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("roles");
-                });
-
             modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
                 {
                     b.Property<int>("id")
@@ -120,8 +109,6 @@ namespace tech_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("role_id");
 
                     b.ToTable("users");
                 });
@@ -356,17 +343,6 @@ namespace tech_store.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
-                {
-                    b.HasOne("tech_store.DbModels.Auth.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("role_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("tech_store.DbModels.Catalogs.City", b =>
                 {
                     b.HasOne("tech_store.DbModels.Catalogs.Country", "Country")
@@ -457,11 +433,6 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Auth.Address", b =>
                 {
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("tech_store.DbModels.Auth.Role", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>

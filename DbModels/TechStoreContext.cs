@@ -60,6 +60,7 @@ namespace tech_store.DbModels
 
         private void createRolesTable(ModelBuilder modelBuilder){     
             modelBuilder.Entity<Role>().HasKey(e => e.id);
+            modelBuilder.Entity<Role>().Property(e => e.id).ValueGeneratedNever();
             modelBuilder.Entity<Role>().Property(e => e.name).IsRequired();
             modelBuilder.Entity<Role>().HasMany(e => e.Users).WithOne(e => e.Role).HasForeignKey(e => e.role_id);
         }

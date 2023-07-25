@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using tech_store.DbModels;
 using tech_store.DbModels.Auth;
+using tech_store.Dtos.Roles;
 using tech_store.Dtos.User;
 using tech_store.Services.AuthService;
 
@@ -43,7 +44,7 @@ namespace tech_store.Controllers
                 new Claim(ClaimTypes.Name, userDb.username)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSetrings:Token").Value));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -64,13 +65,20 @@ namespace tech_store.Controllers
             });
         }
 
-            
+
 
         [HttpGet]
         [Route("Roles")]
-        public async Task<ActionResult<List<Role>>> getRoles()
+        public async Task<ServiceResponse<List<RolesGetDto>>> getRoles(int? id)
         {
-            return null;
+            return await _authService.getRoles(id);
+        }
+
+        [HttpPost]
+        [Route("AddRole")]
+        public async Task<ServiceResponse<List<RolesGetDto>>> addRole(RolesAddDto role)
+        {
+            return await _authService.addRole(role);
         }
 
     }

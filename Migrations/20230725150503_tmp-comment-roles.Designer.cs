@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tech_store.DbModels;
 
@@ -11,9 +12,11 @@ using tech_store.DbModels;
 namespace tech_store.Migrations
 {
     [DbContext(typeof(TechStoreContext))]
-    partial class TechStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230725150503_tmp-comment-roles")]
+    partial class tmpcommentroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,15 +74,17 @@ namespace tech_store.Migrations
             modelBuilder.Entity("tech_store.DbModels.Auth.Role", b =>
                 {
                     b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
                     b.Property<string>("name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
-                    b.ToTable("roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("tech_store.DbModels.Auth.User", b =>
@@ -89,6 +94,9 @@ namespace tech_store.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int?>("Roleid")
+                        .HasColumnType("int");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
@@ -121,7 +129,7 @@ namespace tech_store.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("role_id");
+                    b.HasIndex("Roleid");
 
                     b.ToTable("users");
                 });
@@ -360,9 +368,7 @@ namespace tech_store.Migrations
                 {
                     b.HasOne("tech_store.DbModels.Auth.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("role_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Roleid");
 
                     b.Navigation("Role");
                 });

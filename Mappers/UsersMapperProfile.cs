@@ -7,8 +7,11 @@ namespace tech_store.Mappers
     {
         public UsersMapperProfile() 
         {
-            CreateMap<User, UserGetDto>();
-            CreateMap<UserAddDto, User>();
+            CreateMap<User, UserGetDto>()
+                .ForMember(dest => dest.roleId, opt => opt.MapFrom(src=>src.role_id));
+
+            CreateMap<UserAddDto, User>()
+                .ForMember(dest => dest.role_id, opt => opt.MapFrom(src => src.roleId)); ;
         }
     }
 }
