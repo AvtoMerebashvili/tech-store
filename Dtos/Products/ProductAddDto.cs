@@ -12,6 +12,5 @@
         public int initialQuantity { get; set; }
         public string img { get; set; }
         public int modelId { get; set; }
-        public int creatorId { get; set; }
     }
 }

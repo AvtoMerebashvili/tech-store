@@ -1,4 +1,4 @@
-﻿namespace tech_store.DbModels.BaseDbModels
+﻿namespace tech_store.DbModels
 {
     public class ValueBase
     {

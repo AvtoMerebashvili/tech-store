@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using tech_store.Dtos.OrderItems;
 
 namespace tech_store.Controllers
 {
@@ -24,73 +26,73 @@ namespace tech_store.Controllers
         [Authorize]
         [HttpGet]
         [Route("GetOrderDetails")]
-        public async Task<ActionResult<List<OrderGetDto>>> getOrders(int? id)
+        public async Task<ServiceResponse<List<OrderGetDto>>> getOrders(int? id)
         {
-            // getOrdersByParams
-            return null;
+            return await _productsService.getOrdersByParams(id);
         }
 
         [Authorize]
         [HttpPost]
         [Route("CreateOrder")]
-        public async Task<ActionResult<Boolean>> createOrder(OrderCreateDto request)
+        public async Task<ServiceResponse<List<OrderGetDto>>> createOrder(OrderCreateDto request)
         {
-            //createOrder
-            return null;
+            return await _productsService.createOrder(request);
         }
 
         [Authorize]
         [HttpDelete]
         [Route("RemoveOrder")]
-        public async Task<ActionResult<Boolean>> removeOrder(int id)
+        public async Task<ServiceResponse<List<OrderGetDto>>> removeOrder(int id)
         {
-            //removeOrderById
-            return null;
+            return await _productsService.removeOrderById(id);
         }
 
         [Authorize]
         [HttpPost]
         [Route("CreateOrderItems")]
-        public async Task<ActionResult<Boolean>> createOrderItems(OrderItemsCreateDto request)
+        public async Task<ServiceResponse<List<OrderItemsGetDto>>> createOrderItems(OrderItemsCreateDto request)
         {
-            //createOrderItems
-            return null;
+            return await _productsService.createOrderItems(request);
         }
 
         [Authorize]
         [HttpDelete]
         [Route("RemoveOrderItems")]
-        public async Task<ActionResult<Boolean>> RemoveOrderItems(int id)
+        public async Task<ServiceResponse<List<OrderItemsGetDto>>> RemoveOrderItems(int id)
         {
-            //removeOrderItemsById
-            return null;
+            return await _productsService.removeOrderItemsById(id);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("SubmitOrderItems")]
+        public async Task<ServiceResponse<List<OrderItemsGetDto>>> SubmitOrderItems(int id)
+        {
+            return await _productsService.SubmitOrderItemsById(id);
         }
 
         [Authorize]
         [HttpGet]
         [Route("GetBooks")]
-        public async Task<ActionResult<List<BookGetDto>>> GetBooks(int? id)
+        public async Task<ServiceResponse<List<BookGetDto>>> GetBooks(int? id)
         {
-            //getBooksById
-            return null;
+            return await _productsService.getBooksByParams(id);
         }
 
         [Authorize]
         [HttpPost]
         [Route("CreateBook")]
-        public async Task<ActionResult<Boolean>> createBook(BookCreateDto request)
+        public async Task<ServiceResponse<List<BookGetDto>>> createBook(BookCreateDto request)
         {
-            //createBook
-            return null;
+            return await _productsService.createBook(request);
         }
 
         [Authorize]
         [HttpDelete]
         [Route("RemoveBook")]
-        public async Task<ActionResult<Boolean>> removeBook(int id)
+        public async Task<ServiceResponse<List<BookGetDto>>> removeBook(int id)
         {
-            //getBookById
-            return null;
+            return await _productsService.removeBookById(id);
         }
 
 

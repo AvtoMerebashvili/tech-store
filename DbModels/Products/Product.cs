@@ -1,5 +1,4 @@
 ﻿using tech_store.DbModels.Auth;
-using tech_store.DbModels.BaseDbModels;
 using tech_store.DbModels.Catalogs;
 
 namespace tech_store.DbModels.Products

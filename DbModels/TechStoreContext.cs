@@ -126,6 +126,8 @@ namespace tech_store.DbModels
             modelBuilder.Entity<Order>().HasOne(e=>e.Product).WithMany(e=>e.Orders).HasForeignKey(e=>e.product_id).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Order>().HasOne(e=>e.OrderItem).WithMany(e=>e.Orders).HasForeignKey(e=>e.order_items_id).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Order>().HasOne(e=>e.Address).WithMany(e=>e.Orders).HasForeignKey(e=>e.delivery_address_id);
+            modelBuilder.Entity<Order>().HasOne(e=>e.user).WithMany(e=>e.Orders).HasForeignKey(e=>e.owner_id).OnDelete(DeleteBehavior.NoAction);
+
         }
 
         private void createOrderItemsTable(ModelBuilder modelBuilder){

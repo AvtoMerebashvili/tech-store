@@ -1,4 +1,5 @@
 ﻿using tech_store.DbModels.Products;
+using tech_store.Dtos.OrderItems;
 
 namespace tech_store.Mappers
 {
@@ -12,9 +13,17 @@ namespace tech_store.Mappers
                 .ForMember(dest => dest.pass_in_branch, act => act.MapFrom(src => src.passInBranch))
                 .ForMember(dest => dest.delivery_address_id, act => act.MapFrom(src => src.deliveryAddressId));
 
-            CreateMap<Order, OrderItemsGetDto>();
 
-            CreateMap<OrderItemsCreateDto, OrderItem>();
+            CreateMap<Order, OrderGetDto>()
+                .ForMember(dest => dest.productId, act => act.MapFrom(src => src.product_id))
+                .ForMember(dest => dest.createDate, act => act.MapFrom(src => src.create_date))
+                .ForMember(dest => dest.endDate, act => act.MapFrom(src => src.end_date))
+                .ForMember(dest => dest.orderItemsId, act => act.MapFrom(src => src.order_items_id))
+                .ForMember(dest => dest.passInBranch, act => act.MapFrom(src => src.pass_in_branch))
+                .ForMember(dest => dest.deliveryAddressId, act => act.MapFrom(src => src.delivery_address_id));
+
+            CreateMap<OrderItemsCreateDto, OrderItem>()
+                .ForMember(dest => dest.is_active, act => act.MapFrom(src => src.isActive));
 
             CreateMap<OrderItem, OrderItemsGetDto>();
 

@@ -1,5 +1,4 @@
-﻿using tech_store.DbModels.BaseDbModels;
-using tech_store.DbModels.Products;
+﻿using tech_store.DbModels.Products;
 
 namespace tech_store.DbModels.Auth
 {
@@ -21,5 +20,6 @@ namespace tech_store.DbModels.Auth
         public Address Address { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public List<Product> Products { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

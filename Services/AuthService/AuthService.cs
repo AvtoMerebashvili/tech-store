@@ -75,16 +75,10 @@ namespace tech_store.Services.AuthService
             var userDb = await _context.users.FirstOrDefaultAsync(dbUser => dbUser.username == username);
 
             if (userDb == null)
-            {
                 return null;
-
-            }
-
+            
             if (!verifyPasswHash(password, userDb.passwordHash, userDb.passwordSalt))
-            {
                 return null;
-
-            }
 
             return userDb;
         }
