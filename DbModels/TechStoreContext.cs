@@ -52,7 +52,8 @@ namespace tech_store.DbModels
             modelBuilder.Entity<User>().Property(e => e.name).IsRequired();
             modelBuilder.Entity<User>().Property(e => e.surname).IsRequired();
             modelBuilder.Entity<User>().Property(e => e.username).IsRequired();
-            modelBuilder.Entity<User>().Property(e => e.password).IsRequired();
+            modelBuilder.Entity<User>().Property(e => e.passwordHash).IsRequired();
+            modelBuilder.Entity<User>().Property(e => e.passwordSalt).IsRequired();
             modelBuilder.Entity<User>().Property(e => e.role_id).IsRequired();
             modelBuilder.Entity<User>().HasOne(e=>e.Address).WithOne(e=>e.User).HasForeignKey<Address>(e => e.user_id);
         }

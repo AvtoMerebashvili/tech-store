@@ -6,7 +6,8 @@ namespace tech_store.DbModels.Auth
     public class User : UserRelations
     {   
         public string username { get; set; }
-        public string password { get; set; }
+        public byte[] passwordHash { get; set; }
+        public byte[] passwordSalt { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
         public string surname { get; set; }
