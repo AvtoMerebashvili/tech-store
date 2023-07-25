@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace tech_store.Controllers
@@ -20,6 +21,7 @@ namespace tech_store.Controllers
             return await _productsService.getProductsByParams(request);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("GetOrderDetails")]
         public async Task<ActionResult<List<OrderGetDto>>> getOrders(int? id)
@@ -28,6 +30,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CreateOrder")]
         public async Task<ActionResult<Boolean>> createOrder(OrderCreateDto request)
@@ -36,6 +39,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveOrder")]
         public async Task<ActionResult<Boolean>> removeOrder(int id)
@@ -44,6 +48,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CreateOrderItems")]
         public async Task<ActionResult<Boolean>> createOrderItems(OrderItemsCreateDto request)
@@ -52,6 +57,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveOrderItems")]
         public async Task<ActionResult<Boolean>> RemoveOrderItems(int id)
@@ -60,6 +66,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("GetBooks")]
         public async Task<ActionResult<List<BookGetDto>>> GetBooks(int? id)
@@ -68,6 +75,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("CreateBook")]
         public async Task<ActionResult<Boolean>> createBook(BookCreateDto request)
@@ -76,6 +84,7 @@ namespace tech_store.Controllers
             return null;
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveBook")]
         public async Task<ActionResult<Boolean>> removeBook(int id)
@@ -86,7 +95,7 @@ namespace tech_store.Controllers
 
 
         //Adimn
-
+        [Authorize]
         [HttpPost]
         [Route("AddNewProduct")]
         public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> addProduct(ProductAddDto request)
@@ -94,6 +103,7 @@ namespace tech_store.Controllers
             return await _productsService.addNewProduct(request);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("UpdateProduct")]
         public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> updateProduct(ProductUpdateDto request)

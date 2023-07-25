@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tech_store.DbModels.Catalogs;
 using tech_store.Dtos;
@@ -52,6 +53,7 @@ namespace tech_store.Controllers
         }
 
         //ADMIN
+        [Authorize]
         [HttpPost]
         [Route("AddProductType")]
         public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> addProductType(ProductTypeAddDto request)
@@ -59,6 +61,7 @@ namespace tech_store.Controllers
             return await _catalogsService.addProductType(request);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveProductType")]
         public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> removeProductType(int id)
@@ -66,6 +69,7 @@ namespace tech_store.Controllers
             return await _catalogsService.removeProductType(id);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AddModel")]
         public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> addModel(ModelAddDto request)
@@ -73,6 +77,7 @@ namespace tech_store.Controllers
             return await _catalogsService.addModel(request);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveModel")]
         public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> removeModel(int id)
@@ -80,7 +85,7 @@ namespace tech_store.Controllers
             return await _catalogsService.removeModel(id);
         }
 
-
+        [Authorize]
         [HttpPost]
         [Route("AddBrand")]
         public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> addBrand(BrandAddDto request)
@@ -88,6 +93,7 @@ namespace tech_store.Controllers
             return await _catalogsService.addBrand(request);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveBrand")]
         public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> removeBrand(int id)
@@ -95,6 +101,7 @@ namespace tech_store.Controllers
             return await _catalogsService.removeBrand(id);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AddCountry")]
         public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> addCountry(CountryAddDto request)
@@ -102,6 +109,7 @@ namespace tech_store.Controllers
             return await _catalogsService.addCountry(request);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveCountry")]
         public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> removeCountry(int id)
@@ -109,6 +117,7 @@ namespace tech_store.Controllers
             return await _catalogsService.removeCountry(id);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("AddCity")]
         public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> addCity(CityAddDto request)
@@ -116,6 +125,7 @@ namespace tech_store.Controllers
             return await _catalogsService.addCity(request);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("RemoveCity")]
         public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> removeCity(int id)
