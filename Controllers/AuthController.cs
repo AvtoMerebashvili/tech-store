@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using tech_store.DbModels;
 using tech_store.DbModels.Auth;
+using tech_store.Dtos.Address;
 using tech_store.Dtos.Roles;
 using tech_store.Dtos.User;
 using tech_store.Services.AuthService;
@@ -66,6 +67,25 @@ namespace tech_store.Controllers
             });
         }
 
+        [Authorize]
+        [HttpPost("AddAddress")]
+        public async Task<ServiceResponse<AddressGetDto>> addAddress(AddressAddDto addressParams)
+        {
+            return await _authService.addAddress(addressParams);
+        }
+        [Authorize]
+        [HttpDelete("RemoveAddress")]
+        public async Task<ServiceResponse<bool>> removeAddress(int id)
+        {
+            return await _authService.removeAddress(id);
+        }
+
+        [Authorize]
+        [HttpGet("GetAddress")]
+        public async Task<ServiceResponse<List<AddressGetDto>>> getAddress() 
+        {
+        return await _authService.getAddresses();
+        }
 
         [Authorize]
         [HttpGet]

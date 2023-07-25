@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using tech_store.DbModels;
 using tech_store.DbModels.Auth;
 using tech_store.Dtos.Address;
@@ -12,16 +15,65 @@ namespace tech_store.Services.AuthService
     {
         private readonly TechStoreContext _context;
         private readonly IMapper _mapper;
-        public AuthService(TechStoreContext context, IMapper mapper)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public AuthService(TechStoreContext context, IMapper mapper, IHttpContextAccessor contextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _contextAccessor = contextAccessor;
         }
         async public Task<ServiceResponse<AddressGetDto>> addAddress(AddressAddDto addressParams)
         {
-            throw new NotImplementedException();
+            string accessToken = _contextAccessor.HttpContext.Request.Headers["Authorization"];
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken.Replace("Bearer ", ""));
+            var userId = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+
+            var response = new ServiceResponse<AddressGetDto>();
+
+            var dbAddress = _mapper.Map<Address>(addressParams);
+            dbAddress.user_id = Convert.ToInt32(userId);
+
+            await _context.AddAsync(dbAddress);
+            await _context.SaveChangesAsync();
+
+            var addressGetDto = _mapper.Map<AddressGetDto>(dbAddress);
+            response.result = addressGetDto;
+
+            return response;
         }
 
+        async public Task<ServiceResponse<bool>> removeAddress(int id)
+        {
+            var response = new ServiceResponse<bool>();
+            var dbAddress = _context.addresses.FirstOrDefaultAsync(x => x.id == id);
+            if (dbAddress != null)
+            {
+                _context.Remove(dbAddress);
+                await _context.SaveChangesAsync();
+                response.result = true;
+            }
+
+            response.result = false;
+            response.message = "dont exists";
+
+            return response;
+        }
+
+        async public Task<ServiceResponse<List<AddressGetDto>>> getAddresses(){
+            string accessToken = _contextAccessor.HttpContext.Request.Headers["Authorization"];
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(accessToken.Replace("Bearer ", ""));
+            var strUserId = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+            var userId = Convert.ToInt32(strUserId);
+
+            var response = new ServiceResponse<List<AddressGetDto>>();
+
+            var dbAddresses = _context.addresses.Where(address => address.user_id == userId);
+            var addrressGetDto = dbAddresses.Select(x=>_mapper.Map<AddressGetDto>(x)).ToList();
+            response.result = addrressGetDto;
+            return response;
+        }
         async public Task<UserGetDto> loginUser(string username, string password)
         {
             var user = await _context.users.FirstOrDefaultAsync(dbUser => dbUser.username == username);
@@ -125,6 +177,11 @@ namespace tech_store.Services.AuthService
                 passwSalt = hmac.Key;
                 passwHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
+        }
+
+        Task<ServiceResponse<bool>> IAuthService.removeAddress(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
