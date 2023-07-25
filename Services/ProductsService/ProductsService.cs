@@ -52,11 +52,27 @@ namespace tech_store.Services.ProductsService
             var dbOrder = _mapper.Map<Order>(newOrder);
             var userId = _tokenService.getUserId();
             dbOrder.owner_id = userId;
-            if(newOrder.bookId != null)
+          
+            if (newOrder.orderItemsId != null)
+                dbOrder.order_items_id = (int)newOrder.orderItemsId;
+            else
+            {
+                var newOrderItems = new OrderItem
+                {
+                    name = "DefaultName",
+                    is_active = true,
+                    owner_id = userId,
+                };
+                await _context.order_items.AddAsync(newOrderItems);
+                dbOrder.order_items_id = newOrderItems.id;
+            }
+
+            if (newOrder.bookId != null)
             {
                 _context.orders.Update(dbOrder);
                 await _context.SaveChangesAsync();
             }
+
             await _context.orders.AddAsync(dbOrder);
             await _context.SaveChangesAsync();
             var dbOrders = _context.orders.Where(order => !order.is_book && order.owner_id == userId).ToList();
