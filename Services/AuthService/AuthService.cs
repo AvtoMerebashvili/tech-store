@@ -8,6 +8,7 @@ using tech_store.DbModels.Auth;
 using tech_store.Dtos.Address;
 using tech_store.Dtos.Roles;
 using tech_store.Dtos.User;
+using tech_store.Services.TokenService;
 
 namespace tech_store.Services.AuthService
 {
@@ -15,24 +16,23 @@ namespace tech_store.Services.AuthService
     {
         private readonly TechStoreContext _context;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _contextAccessor;
-        public AuthService(TechStoreContext context, IMapper mapper, IHttpContextAccessor contextAccessor)
+        private readonly ITokenService _tokenService;
+        public AuthService(TechStoreContext context, IMapper mapper, ITokenService tokenService)
         {
             _context = context;
             _mapper = mapper;
-            _contextAccessor = contextAccessor;
+            _tokenService = tokenService;
+
         }
         async public Task<ServiceResponse<AddressGetDto>> addAddress(AddressAddDto addressParams)
         {
-            string accessToken = _contextAccessor.HttpContext.Request.Headers["Authorization"];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(accessToken.Replace("Bearer ", ""));
-            var userId = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
+            
+            int userId = _tokenService.getUserId();
 
             var response = new ServiceResponse<AddressGetDto>();
 
             var dbAddress = _mapper.Map<Address>(addressParams);
-            dbAddress.user_id = Convert.ToInt32(userId);
+            dbAddress.user_id = userId;
 
             await _context.AddAsync(dbAddress);
             await _context.SaveChangesAsync();
@@ -61,11 +61,7 @@ namespace tech_store.Services.AuthService
         }
 
         async public Task<ServiceResponse<List<AddressGetDto>>> getAddresses(){
-            string accessToken = _contextAccessor.HttpContext.Request.Headers["Authorization"];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(accessToken.Replace("Bearer ", ""));
-            var strUserId = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
-            var userId = Convert.ToInt32(strUserId);
+            int userId = _tokenService.getUserId();
 
             var response = new ServiceResponse<List<AddressGetDto>>();
 
@@ -74,24 +70,23 @@ namespace tech_store.Services.AuthService
             response.result = addrressGetDto;
             return response;
         }
-        async public Task<UserGetDto> loginUser(string username, string password)
+        async public Task<User> loginUser(string username, string password)
         {
-            var user = await _context.users.FirstOrDefaultAsync(dbUser => dbUser.username == username);
+            var userDb = await _context.users.FirstOrDefaultAsync(dbUser => dbUser.username == username);
 
-            if (user == null)
+            if (userDb == null)
             {
                 return null;
 
             }
 
-            if (!verifyPasswHash(password, user.passwordHash, user.passwordSalt))
+            if (!verifyPasswHash(password, userDb.passwordHash, userDb.passwordSalt))
             {
                 return null;
 
             }
 
-            return _mapper.Map<UserGetDto>(user);
-
+            return userDb;
         }
 
         async public Task<ServiceResponse<UserGetDto>> registerUser(UserAddDto userParams)
@@ -178,10 +173,6 @@ namespace tech_store.Services.AuthService
                 passwHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-
-        Task<ServiceResponse<bool>> IAuthService.removeAddress(int id)
-        {
-            throw new NotImplementedException();
-        }
+    
     }
 }

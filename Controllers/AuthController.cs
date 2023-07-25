@@ -11,6 +11,7 @@ using tech_store.Dtos.Address;
 using tech_store.Dtos.Roles;
 using tech_store.Dtos.User;
 using tech_store.Services.AuthService;
+using tech_store.Services.TokenService;
 
 namespace tech_store.Controllers
 {
@@ -19,12 +20,12 @@ namespace tech_store.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IConfiguration _config;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IAuthService authService, IConfiguration config)
+        public AuthController(IAuthService authService, ITokenService tokenService)
         {
             _authService = authService;
-            _config = config;
+            _tokenService = tokenService;
         }
 
         [HttpPost("RegisterUser")]
@@ -33,36 +34,19 @@ namespace tech_store.Controllers
         }
 
         [HttpPost("LogIn")]
-        public async Task<ActionResult<UserGetDto>> logIn(string username, string password)
+        public async Task<ActionResult<User>> logIn(string username, string password)
         {
             var userDb = await _authService.loginUser(username, password);
-
-            if(userDb == null)
+            if (userDb == null)
+            {
                 return Unauthorized();
+            }
 
-            var claims = new[]
+            var token = _tokenService.generateToken(userDb);
+
+            return Ok(new
             {
-                new Claim(ClaimTypes.NameIdentifier, userDb.id.ToString()),
-                new Claim(ClaimTypes.Name, userDb.username)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new {
-                token = tokenHandler.WriteToken(token),
+                token,
                 userDb
             });
         }
@@ -81,7 +65,7 @@ namespace tech_store.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetAddress")]
+        [HttpGet("Addresses")]
         public async Task<ServiceResponse<List<AddressGetDto>>> getAddress() 
         {
         return await _authService.getAddresses();
