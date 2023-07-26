@@ -140,11 +140,11 @@ namespace tech_store.Services.ProductsService
         {
             var response = new ServiceResponse<List<ProductsGetDto>>();
             var dbProducts = await _context.products.Where(product =>
-                string.IsNullOrEmpty(request.id.ToString()) || product.id.ToString() == request.id.ToString() &&
-                string.IsNullOrEmpty(request.productTypeId.ToString()) || product.product_type_id.ToString() == request.productTypeId.ToString() &&
-                string.IsNullOrEmpty(request.onSale.ToString()) || product.on_sale.ToString() == request.onSale.ToString() &&
-                string.IsNullOrEmpty(request.sellingCost.ToString()) || product.selling_cost.ToString() == request.sellingCost.ToString() &&
-                string.IsNullOrEmpty(request.modelId.ToString()) || product.model_id.ToString() == request.modelId.ToString()
+                (string.IsNullOrEmpty(request.id.ToString()) || product.id.ToString() == request.id.ToString()) &&
+                (string.IsNullOrEmpty(request.productTypeId.ToString()) || product.product_type_id.ToString() == request.productTypeId.ToString()) &&
+                (string.IsNullOrEmpty(request.onSale.ToString()) || product.on_sale.ToString() == request.onSale.ToString()) &&
+                (string.IsNullOrEmpty(request.sellingCost.ToString()) || product.selling_cost.ToString() == request.sellingCost.ToString()) &&
+                (string.IsNullOrEmpty(request.modelId.ToString()) || product.model_id.ToString() == request.modelId.ToString())
                 ).ToListAsync();
 
             var productsDto = dbProducts.Select(x => _mapper.Map<ProductsGetDto>(x)).ToList();
