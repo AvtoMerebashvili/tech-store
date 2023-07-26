@@ -10,5 +10,7 @@
         public int sellingCost { get; set; }
         public string img { get; set; }
         public int creatorId { get; set; }
+        public int productTypeId { get; set; }
+        public string modelId { get; set; }
     }
 }

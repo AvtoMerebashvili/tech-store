@@ -2,13 +2,12 @@
 {
     public class OrderCreateDto
     {
-        public int productId { get; set; }
-        public bool isBook = false;
-     
+        public int? id { get; set; }
+        public int? productId { get; set; }
+        public bool isBook { get; set; }
         public int? orderItemsId { get; set; }
         public bool passInBranch { get; set; }
         public int? deliveryAddressId { get; set; }
 
-        public int? bookId{ get; set; }
     }
 }

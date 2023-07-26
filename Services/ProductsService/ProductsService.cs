@@ -69,14 +69,25 @@ namespace tech_store.Services.ProductsService
                 dbOrder.order_items_id = justAddedOrderItem.id;
             }
 
-            if (newOrder.bookId != null)
+            if (newOrder.isBook)
             {
+                var book = await _context.orders.FirstOrDefaultAsync(order =>
+                     order.is_book && order.id == newOrder.id
+                    );
+                dbOrder.id = book.id;
+                dbOrder.product_id = book.product_id;
+                dbOrder.is_book = false;
+                dbOrder.active = true;
+                if(book.order_items_id != null) dbOrder.order_items_id = book.order_items_id;
                 _context.orders.Update(dbOrder);
-                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                await _context.orders.AddAsync(dbOrder);
             }
 
-            await _context.orders.AddAsync(dbOrder);
             await _context.SaveChangesAsync();
+
             var dbOrders = _context.orders.Where(order => !order.is_book && order.owner_id == userId).ToList();
             var OrdersGetDto = dbOrders.Select(x => _mapper.Map<OrderGetDto>(x)).ToList();
             response.result = OrdersGetDto;
@@ -125,15 +136,15 @@ namespace tech_store.Services.ProductsService
             return response;
         }
 
-        public async Task<ServiceResponse<List<ProductsGetDto>>> getProductsByParams(ProductsRequest request)
+        public async Task<ServiceResponse<List<ProductsGetDto>>> getProductsByParams([FromQuery] ProductsRequest request)
         {
             var response = new ServiceResponse<List<ProductsGetDto>>();
             var dbProducts = await _context.products.Where(product =>
-                string.IsNullOrEmpty(request.id.ToString()) || product.id == request.id &&
-                string.IsNullOrEmpty(request.productTypeId.ToString()) || product.product_type_id == request.productTypeId &&
-                string.IsNullOrEmpty(request.onSale.ToString()) || product.on_sale == request.onSale &&
-                string.IsNullOrEmpty(request.sellingCost.ToString()) || product.selling_cost == request.sellingCost &&
-                string.IsNullOrEmpty(request.modelId.ToString()) || product.model_id == request.modelId
+                string.IsNullOrEmpty(request.id.ToString()) || product.id.ToString() == request.id.ToString() &&
+                string.IsNullOrEmpty(request.productTypeId.ToString()) || product.product_type_id.ToString() == request.productTypeId.ToString() &&
+                string.IsNullOrEmpty(request.onSale.ToString()) || product.on_sale.ToString() == request.onSale.ToString() &&
+                string.IsNullOrEmpty(request.sellingCost.ToString()) || product.selling_cost.ToString() == request.sellingCost.ToString() &&
+                string.IsNullOrEmpty(request.modelId.ToString()) || product.model_id.ToString() == request.modelId.ToString()
                 ).ToListAsync();
 
             var productsDto = dbProducts.Select(x => _mapper.Map<ProductsGetDto>(x)).ToList();
@@ -257,24 +268,33 @@ namespace tech_store.Services.ProductsService
                 return response;
             }
 
-            dbProduct = _mapper.Map<Product>(updatedProduct);
+            if(updatedProduct.productTypeId != null)
+                dbProduct.product_type_id = (int)updatedProduct.productTypeId;
+            if(!string.IsNullOrEmpty(updatedProduct.features))
+                dbProduct.features = updatedProduct.features;
+            if(updatedProduct.onSale != null)
+                dbProduct.on_sale = (bool)updatedProduct.onSale;
+            if(updatedProduct.quantity != null)
+                dbProduct.quantity = (int)updatedProduct.quantity;
+            if (updatedProduct.sellingCost != null)
+                dbProduct.selling_cost = (int)updatedProduct.sellingCost;
+            if (updatedProduct.buyingCost != null)
+                dbProduct.buying_cost = (int)updatedProduct.buyingCost;
+            if (updatedProduct.initialQuantity != null)
+                dbProduct.initial_quantity = (int)updatedProduct.initialQuantity;
+            if (!string.IsNullOrEmpty(updatedProduct.img))
+                dbProduct.img = updatedProduct.img;
+            if (updatedProduct.modelId != null)
+                dbProduct.model_id = (int)updatedProduct.modelId;
+    
 
             _context.products.Update(dbProduct);
             await _context.SaveChangesAsync();
              
-            var dbProducts = _context.products.ToList();
+            var dbProducts = await _context.products.ToListAsync();
             var productsDto = dbProducts.Select(x => _mapper.Map<ProductsGetDto>(x)).ToList();
             response.result = productsDto;
             return response;
-
-            //updatedProduct.features ?
-            //updatedProduct.onSale ?
-            //updatedProduct.quantity ?
-            //updatedProduct.sellingCost ?
-            //updatedProduct.buyingCost ?
-            //updatedProduct.initialQuantity ?
-            //updatedProduct.img ?
-            //updatedProduct.modelId ?
 
         }
     }

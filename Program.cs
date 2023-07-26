@@ -28,6 +28,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddDbContext<TechStoreContext>(o => {
     o.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"));
+    o.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 builder.Services.AddControllers();

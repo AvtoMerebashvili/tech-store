@@ -10,7 +10,7 @@ namespace tech_store.DbModels.Products
         public DateTime create_date { get; set; } = DateTime.Now;
         public DateTime end_date { get; set; }
         public DateTime expiration_date { get; set; } = DateTime.Now.AddDays(1);
-        public int order_items_id { get; set; }
+        public int? order_items_id { get; set; }
         public bool pass_in_branch { get; set; }
         public int? delivery_address_id { get; set; }
         public bool active { get; set; } 

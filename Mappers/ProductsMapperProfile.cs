@@ -24,8 +24,11 @@ namespace tech_store.Mappers
             CreateMap<Product, ProductsGetDto>()
                 .ForMember(dest => dest.onSale, act => act.MapFrom(src => src.on_sale))
                 .ForMember(dest => dest.sellingCost, act => act.MapFrom(src => src.selling_cost))
-                .ForMember(dest => dest.creatorId, act => act.MapFrom(src => src.creator_id));
-            
+                .ForMember(dest => dest.creatorId, act => act.MapFrom(src => src.creator_id))
+                .ForMember(dest => dest.productTypeId, act => act.MapFrom(src => src.product_type_id))
+                .ForMember(dest => dest.modelId, act => act.MapFrom(src => src.model_id))
+                ;
+
         }
     }
 }
