@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using tech_store.DbModels.Catalogs;
 using tech_store.Dtos;
-
+using tech_store.Filters;
 
 namespace tech_store.Controllers
 {
@@ -17,36 +17,31 @@ namespace tech_store.Controllers
             _catalogsService = catalogService;
         }
 
-        [HttpGet]
-        [Route("ProductTypes")]
+        [HttpGet("ProductTypes")]
         public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> getProductTypes()
         {
             return await _catalogsService.getProductTypes();
         }
 
-        [HttpGet]
-        [Route("Countries")]
+        [HttpGet("Countries")]
         public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> getCountries()
         {
             return await _catalogsService.getCountries();
         }
 
-        [HttpGet]
-        [Route("Cities")]
+        [HttpGet("Cities")]
         public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> getCities(int? countryId)
         {
             return await _catalogsService.getCitiesByParams(countryId);
         }
 
-        [HttpGet]
-        [Route("Models")]
+        [HttpGet("Models")]
         public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> getModels(int? brandId)
         {
             return await _catalogsService.getModelsByParams(brandId);
         }
 
-        [HttpGet]
-        [Route("Brands")]
+        [HttpGet("Brands")]
         public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> getBrands()
         {
             return await _catalogsService.getBrands();
@@ -54,80 +49,80 @@ namespace tech_store.Controllers
 
         //ADMIN
         [Authorize]
-        [HttpPost]
-        [Route("AddProductType")]
+        [RoleFilter("admin")]
+        [HttpPost("AddProductType")]
         public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> addProductType(ProductTypeAddDto request)
         {
             return await _catalogsService.addProductType(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveProductType")]
+        [RoleFilter("admin")]
+        [HttpDelete("RemoveProductType")]
         public async Task<ActionResult<ServiceResponse<List<ProductTypeGetDto>>>> removeProductType(int id)
         {
             return await _catalogsService.removeProductType(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("AddModel")]
+        [RoleFilter("admin")]
+        [HttpPost("AddModel")]
         public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> addModel(ModelAddDto request)
         {
             return await _catalogsService.addModel(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveModel")]
+        [RoleFilter("admin")]
+        [HttpDelete("RemoveModel")]
         public async Task<ActionResult<ServiceResponse<List<ModelGetDto>>>> removeModel(int id)
         {
             return await _catalogsService.removeModel(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("AddBrand")]
+        [RoleFilter("admin")]
+        [HttpPost("AddBrand")]
         public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> addBrand(BrandAddDto request)
         {
             return await _catalogsService.addBrand(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveBrand")]
+        [RoleFilter("admin")]
+        [HttpDelete("RemoveBrand")]
         public async Task<ActionResult<ServiceResponse<List<BrandGetDto>>>> removeBrand(int id)
         {
             return await _catalogsService.removeBrand(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("AddCountry")]
+        [RoleFilter("admin")]
+        [HttpPost("AddCountry")]
         public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> addCountry(CountryAddDto request)
         {
             return await _catalogsService.addCountry(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveCountry")]
+        [RoleFilter("admin")]
+        [HttpDelete("RemoveCountry")]
         public async Task<ActionResult<ServiceResponse<List<CountryGetDto>>>> removeCountry(int id)
         {
             return await _catalogsService.removeCountry(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("AddCity")]
+        [RoleFilter("admin")]
+        [HttpPost("AddCity")]
         public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> addCity(CityAddDto request)
         {
             return await _catalogsService.addCity(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveCity")]
+        [RoleFilter("admin")]
+        [HttpDelete("RemoveCity")]
         public async Task<ActionResult<ServiceResponse<List<CityGetDto>>>> removeCity(int id)
         {
             return await _catalogsService.removeCity(id);

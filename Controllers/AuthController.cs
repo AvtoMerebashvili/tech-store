@@ -10,6 +10,7 @@ using tech_store.DbModels.Auth;
 using tech_store.Dtos.Address;
 using tech_store.Dtos.Roles;
 using tech_store.Dtos.User;
+using tech_store.Filters;
 using tech_store.Services.AuthService;
 using tech_store.Services.TokenService;
 
@@ -72,16 +73,16 @@ namespace tech_store.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("Roles")]
+        [RoleFilter("admin,moderator")]
+        [HttpGet("Roles")]
         public async Task<ServiceResponse<List<RolesGetDto>>> getRoles(int? id)
         {
             return await _authService.getRoles(id);
         }
 
-        [Authorize] 
-        [HttpPost]
-        [Route("AddRole")]
+        [Authorize]
+        [RoleFilter("admin")]
+        [HttpPost("AddRole")]
         public async Task<ServiceResponse<List<RolesGetDto>>> addRole(RolesAddDto role)
         {
             return await _authService.addRole(role);

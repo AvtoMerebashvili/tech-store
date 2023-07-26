@@ -60,5 +60,6 @@ namespace tech_store.Services.TokenService
             var strUserId = jwtSecurityToken.Claims.First(claim => claim.Type == "nameid").Value;
             return Convert.ToInt32(strUserId);
         }
+   
     }
 }

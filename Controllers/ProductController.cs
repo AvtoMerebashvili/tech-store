@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using tech_store.Dtos.OrderItems;
+using tech_store.Filters;
 
 namespace tech_store.Controllers
 {
@@ -16,80 +17,79 @@ namespace tech_store.Controllers
             _productsService = productsService;
         }
 
-        [HttpGet]
-        [Route("Products")]
+        [HttpGet("Products")]
         public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> getProducts([FromQuery] ProductsRequest request)
         {
             return await _productsService.getProductsByParams(request);
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("GetOrderDetails")]
+        [RoleFilter("user")]
+        [HttpGet("GetOrderDetails")]
         public async Task<ServiceResponse<List<OrderGetDto>>> getOrders(int? id)
         {
             return await _productsService.getOrdersByParams(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("CreateOrder")]
+        [RoleFilter("user")]
+        [HttpPost("CreateOrder")]
         public async Task<ServiceResponse<List<OrderGetDto>>> createOrder(OrderCreateDto request)
         {
             return await _productsService.createOrder(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveOrder")]
+        [RoleFilter("user")]
+        [HttpDelete("RemoveOrder")]
         public async Task<ServiceResponse<List<OrderGetDto>>> removeOrder(int id)
         {
             return await _productsService.removeOrderById(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("CreateOrderItems")]
+        [RoleFilter("user")]
+        [HttpPost("CreateOrderItems")]
         public async Task<ServiceResponse<List<OrderItemsGetDto>>> createOrderItems(OrderItemsCreateDto request)
         {
             return await _productsService.createOrderItems(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveOrderItems")]
+        [RoleFilter("user")]
+        [HttpDelete("RemoveOrderItems")]
         public async Task<ServiceResponse<List<OrderItemsGetDto>>> RemoveOrderItems(int id)
         {
             return await _productsService.removeOrderItemsById(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("SubmitOrderItems")]
+        [RoleFilter("user")]
+        [HttpPost("SubmitOrderItems")]
         public async Task<ServiceResponse<List<OrderItemsGetDto>>> SubmitOrderItems(int id)
         {
             return await _productsService.SubmitOrderItemsById(id);
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("GetBooks")]
+        [RoleFilter("user")]
+        [HttpGet("GetBooks")]
         public async Task<ServiceResponse<List<BookGetDto>>> GetBooks(int? id)
         {
             return await _productsService.getBooksByParams(id);
         }
 
         [Authorize]
-        [HttpPost]
-        [Route("CreateBook")]
+        [RoleFilter("user")]
+        [HttpPost("CreateBook")]
         public async Task<ServiceResponse<List<BookGetDto>>> createBook(BookCreateDto request)
         {
             return await _productsService.createBook(request);
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("RemoveBook")]
+        [RoleFilter("user")]
+        [HttpDelete("RemoveBook")]
         public async Task<ServiceResponse<List<BookGetDto>>> removeBook(int id)
         {
             return await _productsService.removeBookById(id);
@@ -98,16 +98,16 @@ namespace tech_store.Controllers
 
         //Adimn
         [Authorize]
-        [HttpPost]
-        [Route("AddNewProduct")]
+        [RoleFilter("admin")]
+        [HttpPost("AddNewProduct")]
         public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> addProduct(ProductAddDto request)
         {
             return await _productsService.addNewProduct(request);
         }
 
         [Authorize]
-        [HttpPut]
-        [Route("UpdateProduct")]
+        [RoleFilter("admin")]
+        [HttpPut("UpdateProduct")]
         public async Task<ActionResult<ServiceResponse<List<ProductsGetDto>>>> updateProduct(ProductUpdateDto request)
         {
             return await _productsService.updateProduct(request);

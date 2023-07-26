@@ -86,7 +86,7 @@ namespace tech_store.Services.AuthService
         async public Task<ServiceResponse<UserGetDto>> registerUser(UserAddDto userParams)
         {
             var response = new ServiceResponse<UserGetDto>();
-            var userAlreadyExists = await userExists(userParams.surname);
+            var userAlreadyExists = await userExists(userParams.username);
 
             if (userAlreadyExists.result)
             {
