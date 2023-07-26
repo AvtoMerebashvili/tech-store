@@ -8,7 +8,7 @@ namespace tech_store.DbModels.Products
         public int product_id { get; set; }
         public bool is_book { get; set; }
         public DateTime create_date { get; set; } = DateTime.Now;
-        public DateTime end_date { get; set; }
+        public DateTime? end_date { get; set; }
         public DateTime expiration_date { get; set; } = DateTime.Now.AddDays(1);
         public int? order_items_id { get; set; }
         public bool pass_in_branch { get; set; }

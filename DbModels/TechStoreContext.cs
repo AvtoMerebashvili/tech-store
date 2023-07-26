@@ -136,7 +136,7 @@ namespace tech_store.DbModels
             modelBuilder.Entity<OrderItem>().Property(e=>e.owner_id).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.create_date).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.create_date).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<OrderItem>().Property(e=>e.end_date).IsRequired();
+            //modelBuilder.Entity<OrderItem>().Property(e=>e.end_date).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.is_active).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(e=>e.is_active).HasDefaultValue(true);
             modelBuilder.Entity<OrderItem>().HasOne(e=>e.User).WithMany(e=>e.OrderItems).HasForeignKey(e=>e.owner_id);
